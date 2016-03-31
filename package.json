@@ -1,0 +1,23 @@
+{
+  "name": "lawnmower_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^0.8.5",
+    "body-parser": "^1.14.1",
+    "bunyan": "^1.5.1",
+    "express": "^4.13.3",
+    "extend": "^3.0.0",
+    "jsonwebtoken": "^5.4.1",
+    "mongodb": "^2.0.47",
+    "mongoose": "^4.3.0",
+    "morgan": "^1.6.1",
+    "restify": "^4.0.3"
+  }
+}
