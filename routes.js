@@ -10,47 +10,11 @@ var accelerationRouter = express.Router();
 var gearboxRouter = express.Router();
 var steeringWheelRouter = express.Router();
 
-var isTokenValid = isTokenValid;
+// switches
+//switchesRouter.use(tokenMiddleware);
+switchesRouter.get('/:_id', resources.switches.read.getSwitchState);
 
-// route middleware to verify a token
-protectedRoutes.use(function(req, res, next) {
-    console.log('req.body: ' + JSON.stringify(req.body));
-
-    // check header or url parameters or post parameter for token
-    var token = req.body.token || req.query.token || req.headers['x-access-token'];
-
-    // decode token
-    if (token) {
-        console.log('token provided, token: ' + token);
-        // verifies secret and checks exp
-        jwt.verify(token, app.get('superSecret'), function(err, decoded) {
-            if (err) {
-                return res.json(response.error('Failed to authenticate token. Error: ' + err));
-            } else {
-                // if everything is ok, save to request for use in other routes
-                req.decoded = decoded;
-                next();
-            }
-        });
-    } else {
-        console.log('token not provided');
-        // if there is no token
-        // return an error
-        return res.status(403).send({
-            success: false,
-            message: 'No token provided.'
-        });
-    }
-});
-
-// User
-userRoutes.get('', resources.users.read.getFullUser);
-userRoutes.post('', resources.users.create.createUser);
-userRoutes.post('/authenticate', resources.users.create.authenticateUser);
-protectedRoutes.get('/user', resources.users.read.getFullUser);
-protectedRoutes.post('/user/authenticatebytoken', resources.users.create.authenticateByToken);
-protectedRoutes.put('/user/:id/', resources.users.update.update);
-
+/*
 // Categories
 categoriesRoutes.get('', resources.categories.read.getCategories);
 
@@ -68,43 +32,40 @@ meetingsRoutes.delete('/remove/:id', resources.meetings.del.removeMeeting);
 
 // Meetings protected
 //protectedRoutes.post('/meetings/create/:category', resources.meetings.create.createMeetingInCategory);
+*/
 
 // configure express to use apiRoutes
-app.use('/protected', protectedRoutes);
-app.use('/user', userRoutes);
-app.use('/users', usersRoutes);
-app.use('/categories', categoriesRoutes);
-app.use('/meeting', meetingRoutes);
-app.use('/meetings', meetingsRoutes);
+app.use('/switches', switchesRouter);
 
 //////////////
+
 /**
 * @description
-*   function returns false if token is not provided in request header or it can not
-*   be decoded properly. If token is valid function returns decoded object
-* @param req
-*   it's a request object
+*   Function returns false if token is not provided in request header or it can not
+*   be decoded properly. If token is valid function add "decoded" property to req object.
 */
-function isTokenValid(req) {
+function tokenMiddleware(req, res, next) {
+    console.log('req.body: ' + JSON.stringify(req.body));
+
     // check header or url parameters or post parameter for token
     var token = req.headers['x-access-token'] || false;
 
     if (!token) {
-        console.log('token not provided');
-        return false;
+        console.log('Token not provided.');
+        return res.status(401).send(response.error('Token not provided.'));
     }
 
     // decode token
-    console.log('token provided, token: ' + token);
-
-    // verify secret and check exp
+    console.log('Token provided, token: ' + token + '.');
+    // verifies secret and checks exp
     jwt.verify(token, app.get('superSecret'), function(err, decoded) {
         if (err) {
-            console.log('Failed to authenticate token. Error: ' + err);
-            return false;
+            return res.status(401).send(response.error('Failed to authenticate token. Error: ' + err));
         } else {
-            return decoded;
+            // if everything is ok, save to request for use in other routes
+            req.decoded = decoded;
+            next();
         }
     });
-    return true;
+    
 }

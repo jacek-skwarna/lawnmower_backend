@@ -1,6 +1,6 @@
 module.exports = {
 	secret: 'hbj32&hghg',
-	database: 'mongodb://localhost:27017/lawnmower',
+	database: 'mongodb://lawnmower:placEK2&@ds013270.mlab.com:13270/lawnmower',
 	salt: 10,
 	// max of 5 login attempts, resulting in a 2 hour lock
 	MAX_LOGIN_ATTEMPTS: 5,
