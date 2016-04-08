@@ -13,6 +13,7 @@ var steeringWheelRouter = express.Router();
 // switches
 //switchesRouter.use(tokenMiddleware);
 switchesRouter.get('/:_id', resources.switches.read.getSwitchState);
+switchesRouter.put('/:_id', resources.switches.update.switchState);
 
 /*
 // Categories
