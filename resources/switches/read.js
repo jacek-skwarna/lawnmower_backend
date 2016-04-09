@@ -23,22 +23,23 @@ function getSwitchState(req, res, next) {
     }
 
     Switch.find({_id: _id}, function(err, results) {
-        if (err === null && results.length) {
-            // gpio test
-            gpio.setup(7, gpio.DIR_OUT, write);
-
-            function write() {
-                gpio.write(7, true, function(err) {
-                    if (err) throw err;
-                    console.log('Written to pin');
-                    return res.json(response.success(results));
-                });
-            }
-            //
-            //return res.json(response.success(results));
-        } else {
-
+        if (err !== null || !results.length) {
             return res.status(404).send(response.error('getSwitchState. Error: ' + err));
+        }
+
+        // gpio test
+        gpio.setup(7, gpio.DIR_OUT, write);
+        
+        return res.json(response.success(results));
+
+        function write() {
+            gpio.write(7, true, function(err) {
+                if (err) {
+                    return res.status(400).send(response.error('getSwitchState, write to pin problem. Error: ' + err));
+                    throw err;
+                }
+                console.log('Written to pin');
+            });
         }
     });
 }

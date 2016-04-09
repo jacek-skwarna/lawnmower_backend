@@ -1,5 +1,6 @@
 var response = require('../../response');
 var Switch = require('../../models/switch');
+var gpio = require('rpi-gpio');
 
 var switchesUpdate = {
   switchState: switchState
@@ -30,10 +31,24 @@ function switchState(req, res, next) {
     }
 
     Switch.update({ _id: _id }, { $set: { state: !switchObject.state } },
-      function(err, results) {
+    function(err, results) {
       if (err || !results || !results.nModified) {
         return res.status(400).send(response.error('switchState | toggleSwitch | update. Error: ' + err));
       }
+
+      // gpio test
+      gpio.setup(7, gpio.DIR_OUT, write);
+
+      function write() {
+        gpio.write(7, !switchObject.state, function(err) {
+            if (err) {
+                return res.status(400).send(response.error('switchState | toggleSwitch | update | write. Error: ' + err));
+                throw err;
+            }
+            console.log('Written to pin');
+        });
+      }
+      //
       
       return res.json(response.success(results));
     });
