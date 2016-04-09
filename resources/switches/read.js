@@ -36,8 +36,9 @@ function getSwitchState(req, res, next) {
             }
             //
             //return res.json(response.success(results));
-        }
+        } else {
 
-        return res.status(404).send(response.error('getSwitchState. Error: ' + err));
+            return res.status(404).send(response.error('getSwitchState. Error: ' + err));
+        }
     });
 }
