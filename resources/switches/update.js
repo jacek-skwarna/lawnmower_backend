@@ -30,8 +30,7 @@ function switchState(req, res, next) {
       return res.status(404).send(response.error('switchState | toggleSwitch. Error: ' + err));
     }
 
-    Switch.update({ _id: _id }, { $set: { state: !switchObject.state } },
-    function(err, results) {
+    Switch.update({ _id: _id }, { $set: { state: !switchObject.state } }, function(err, results) {
       if (err || !results || !results.nModified) {
         return res.status(400).send(response.error('switchState | toggleSwitch | update. Error: ' + err));
       }
@@ -46,11 +45,10 @@ function switchState(req, res, next) {
                 throw err;
             }
             console.log('Written to pin');
+            return res.json(response.success(results));
         });
       }
       //
-      
-      return res.json(response.success(results));
     });
   }
 }

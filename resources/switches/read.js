@@ -29,8 +29,6 @@ function getSwitchState(req, res, next) {
 
         // gpio test
         gpio.setup(7, gpio.DIR_OUT, write);
-        
-        return res.json(response.success(results));
 
         function write() {
             gpio.write(7, true, function(err) {
@@ -39,6 +37,7 @@ function getSwitchState(req, res, next) {
                     throw err;
                 }
                 console.log('Written to pin');
+                return res.json(response.success(results));
             });
         }
     });
