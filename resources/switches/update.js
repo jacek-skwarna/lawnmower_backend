@@ -36,10 +36,10 @@ function switchState(req, res, next) {
       }
 
       // gpio test
-      gpio.setup(7, gpio.DIR_OUT, write);
+      gpio.setup(_id, gpio.DIR_OUT, write);
 
       function write() {
-        gpio.write(7, !switchObject.state, function(err) {
+        gpio.write(_id, !switchObject.state, function(err) {
             if (err) {
                 return res.status(400).send(response.error('switchState | toggleSwitch | update | write. Error: ' + err));
                 throw err;

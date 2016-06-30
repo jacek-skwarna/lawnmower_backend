@@ -28,16 +28,16 @@ function getSwitchState(req, res, next) {
         }
 
         // gpio test
-        gpio.setup(7, gpio.DIR_OUT, write);
+        gpio.setup(_id, gpio.DIR_IN, read);
 
-        function write() {
-            gpio.write(7, true, function(err) {
+        function read() {
+            gpio.read(_id, function(err, value) {
                 if (err) {
-                    return res.status(400).send(response.error('getSwitchState, write to pin problem. Error: ' + err));
                     throw err;
+                    return res.status(400).send(response.error('getSwitchState, read pin problem. Error: ' + err));
                 }
-                console.log('Written to pin');
-                return res.json(response.success(results));
+                console.log('The value of pin ' + _id + ' is: ' + value);
+                return res.json(response.success(value));
             });
         }
     });

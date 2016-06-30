@@ -5,20 +5,26 @@ var jwt = require('jsonwebtoken');
 var response = require('./response');
 
 // create instances of the router
+var gpioRouter = express.Router();// for testing only
 var switchesRouter = express.Router();
-var accelerationRouter = express.Router();
+var speedRouter = express.Router();
 var gearboxRouter = express.Router();
 var steeringWheelRouter = express.Router();
+
+// gpio
+gpioRouter.put('/:id', resources.gpio.update.setGpio);
 
 // switches
 //switchesRouter.use(tokenMiddleware);
 switchesRouter.get('/:_id', resources.switches.read.getSwitchState);
 switchesRouter.put('/:_id', resources.switches.update.switchState);
 
-/*
-// Categories
-categoriesRoutes.get('', resources.categories.read.getCategories);
 
+// speed
+speedRouter.put('', resources.speed.update.setSpeed);
+
+
+/*
 // Meeting
 meetingRoutes.get('', resources.meetings.read.getFullMeeting);
 protectedRoutes.post('/meeting', resources.meetings.create.createMeetingInCategory);
@@ -36,7 +42,9 @@ meetingsRoutes.delete('/remove/:id', resources.meetings.del.removeMeeting);
 */
 
 // configure express to use apiRoutes
+app.use('/gpio', gpioRouter);
 app.use('/switches', switchesRouter);
+app.use('/speed', speedRouter);
 
 //////////////
 
