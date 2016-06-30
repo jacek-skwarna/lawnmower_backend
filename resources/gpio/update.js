@@ -14,7 +14,7 @@ module.exports = gpioUpdate;
 */
 function setGpio(req, res, next) {
   var id = req.params.id || null;
-  var value = req.params.value || null;
+  var value = req.body.value || null;
 
   console.log('setGpio, req.params: ' + JSON.stringify(req.params));
   console.log('setGpio, typeof value: ' + typeof value);
