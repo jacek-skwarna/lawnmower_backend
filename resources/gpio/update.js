@@ -29,8 +29,6 @@ function setGpio(req, res, next) {
 
   gpio.setup(id, gpio.DIR_OUT, write);
 
-  return res.json(response.success(results));
-
   function write() {
     gpio.write(id, value, gpioCallback);
   }
@@ -41,5 +39,6 @@ function setGpio(req, res, next) {
     }
 
     console.log('GPIO error: ' + err);
+    return res.json(response.success({}));
   }
 }
