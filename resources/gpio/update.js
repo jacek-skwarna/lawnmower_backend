@@ -19,6 +19,7 @@ function setGpio(req, res, next) {
   console.log('setGpio, req.params: ' + JSON.stringify(req.params));
   console.log('setGpio, typeof value: ' + typeof value);
 
+
   if (!id) {
     return res.status(404).send(response.error('setGpio. Pin ID not provided.'));
   }
@@ -30,6 +31,7 @@ function setGpio(req, res, next) {
   gpio.setup(id, gpio.DIR_OUT, write);
 
   function write() {
+    console.log('id: ' + id + ', value: ' + value);
     gpio.write(id, value, gpioCallback);
   }
 
