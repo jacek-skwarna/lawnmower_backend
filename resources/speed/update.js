@@ -1,6 +1,6 @@
 var response = require('../../response');
 var gpio = require('rpi-gpio');
-var gpioConfig = require('./gpio.config.js');
+var gpioConfig = require('../../gpio.config.js');
 
 var speedUpdate = {
   setSpeed: setSpeed
