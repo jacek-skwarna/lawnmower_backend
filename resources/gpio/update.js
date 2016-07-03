@@ -28,11 +28,11 @@ function setGpio(req, res, next) {
     return res.status(404).send(response.error('setGpio. Value for Pin ' + id + ' not provided.'));
   }
 
-  gpio.setup(id, gpio.DIR_IN, write);
+  gpio.setup(15, gpio.DIR_OUT, write);
 
   function write() {
     console.log('id: ' + id + ', value: ' + value);
-    gpio.write(id, 1, gpioCallback);
+    gpio.write(15, true, gpioCallback);
   }
 
   function gpioCallback(err) {
