@@ -13,6 +13,16 @@ module.exports = gpioUpdate;
 *   set speed for both wheels.
 */
 function setGpio(req, res, next) {
+  gpio.setup(7, gpio.DIR_OUT, write);
+ 
+  function write() {
+      gpio.write(7, true, function(err) {
+          if (err) throw err;
+          console.log('Written to pin');
+      });
+  }
+
+  /*
   var id = req.params.id || null;
   var value = req.body.value;
 
@@ -48,4 +58,5 @@ function setGpio(req, res, next) {
 
     return res.json(response.success({}));
   }
+  */
 }
