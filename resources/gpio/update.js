@@ -32,15 +32,15 @@ function setGpio(req, res, next) {
 
   function write() {
     console.log('id: ' + id + ', value: ' + value);
-    gpio.write(id, value, gpioCallback);
+    gpio.write(id, 1, gpioCallback);
   }
 
   function gpioCallback(err) {
     if (err) {
+      console.log('GPIO error: ' + err);
       return res.status(400).send(response.error(err));
     }
 
-    console.log('GPIO error: ' + err);
     return res.json(response.success({}));
   }
 }
