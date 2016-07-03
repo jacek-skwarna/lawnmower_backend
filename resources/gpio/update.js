@@ -28,7 +28,7 @@ function setGpio(req, res, next) {
     return res.status(404).send(response.error('setGpio. Value for Pin ' + id + ' not provided.'));
   }
 
-  gpio.setup(id, gpio.DIR_OUT, write);
+  gpio.setup(id, gpio.DIR_IN, write);
 
   function write() {
     console.log('id: ' + id + ', value: ' + value);
